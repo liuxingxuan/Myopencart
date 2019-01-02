@@ -1,5 +1,6 @@
 package io.lxx.opencartservice.dao;
 
+import io.lxx.opencartservice.dto.UserAddDTO;
 import io.lxx.opencartservice.po.User;
 
 public interface UserMapper {
@@ -14,4 +15,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User getByUsername(String username);
+
+    void add(UserAddDTO userAddDTO);
 }

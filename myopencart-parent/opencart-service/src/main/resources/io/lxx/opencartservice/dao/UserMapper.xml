@@ -15,6 +15,16 @@
     user_id, username, first_name, last_name, email, avatar_url, encrypted_password, 
     roles
   </sql>
+<!--sql console-->
+  <select id="getByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username}
+  </select>
+
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -26,10 +36,10 @@
     where user_id = #{userId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="io.lxx.opencartservice.po.User">
-    insert into user (user_id, username, first_name, 
+    insert into user (username, first_name,
       last_name, email, avatar_url, 
       encrypted_password, roles)
-    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR},
       #{lastName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, 
       #{encryptedPassword,jdbcType=CHAR}, #{roles,jdbcType=VARCHAR})
   </insert>
