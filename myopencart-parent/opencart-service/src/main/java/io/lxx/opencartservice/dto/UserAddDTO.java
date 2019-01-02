@@ -1,5 +1,8 @@
 package io.lxx.opencartservice.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
 public class UserAddDTO {
     private String username;
 
@@ -7,10 +10,11 @@ public class UserAddDTO {
 
     private String lastName;
 
+    @Email
     private String email;
 
     private String avatarUrl;
-
+    @Size(min = 11,max = 18)
     private String password;
 
     public String getUsername() {

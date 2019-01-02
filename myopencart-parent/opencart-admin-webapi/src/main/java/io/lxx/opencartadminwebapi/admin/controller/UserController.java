@@ -12,6 +12,7 @@ import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
 
     @Autowired
@@ -50,7 +52,7 @@ public class UserController {
      * @param userAddDTO
      */
     @PostMapping("/add")
-    public void add(@RequestBody UserAddDTO userAddDTO){
+    public void add(@RequestBody @Validated UserAddDTO userAddDTO){
         userService.add(userAddDTO);
     }
     @GetMapping("/login")
@@ -74,7 +76,7 @@ public class UserController {
      * @param userUpdateDTO
      */
     @PostMapping("/update")
-    public void update(@RequestBody UserUpdateDTO userUpdateDTO){
+    public void update(@RequestBody @Validated UserUpdateDTO userUpdateDTO){
         userService.update(userUpdateDTO);
     }
 
