@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import io.lxx.opencartadminwebapi.admin.DTO.LoginInfo;
 import io.lxx.opencartservice.dto.UserAddDTO;
 import io.lxx.opencartadminwebapi.admin.exception.BackendClientException;
+import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class UserController {
     }
 
     /**
+     * 拿到当前用户信息
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getCurrentUserInfo")
+    public User getCurrentUserInfo(@RequestAttribute Long userId){
+        User currentUser = userService.getById(userId);
+        return currentUser;
+    }
+    /**
      * 新增用户
      * @param userAddDTO
      */
@@ -55,4 +66,12 @@ public class UserController {
         return token;
     }
 
+    /**
+     * 修改user信息
+     * @param userUpdateDTO
+     */
+    @PostMapping("/update")
+    public void update(@RequestBody UserUpdateDTO userUpdateDTO){
+        userService.update(userUpdateDTO);
+    }
 }

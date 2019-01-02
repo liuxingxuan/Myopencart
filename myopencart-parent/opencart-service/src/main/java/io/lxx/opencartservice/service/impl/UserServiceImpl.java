@@ -2,16 +2,19 @@ package io.lxx.opencartservice.service.impl;
 
 import io.lxx.opencartservice.dao.UserMapper;
 import io.lxx.opencartservice.dto.UserAddDTO;
+import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.UserService;
 import io.lxx.opencartservice.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Service
+@EnableAutoConfiguration
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -40,5 +43,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByUsername(String username) {
         return userMapper.getByUsername(username);
+    }
+
+    @Override
+    public void update(UserUpdateDTO userUpdateDTO) {
+        //先根据userId查找用户
+        User user = userMapper.selectByPrimaryKey(userUpdateDTO.getUserId());
+        user.setUsername(userUpdateDTO.getUsername());
+        user.setFirstName(userUpdateDTO.getFirstName());
+        user.setLastName(userUpdateDTO.getLastName());
+        user.setEmail(userUpdateDTO.getEmail());
+        user.setAvatarUrl(userUpdateDTO.getAvatarUrl());
+        user.setEncryptedPassword(DigestUtils.md5DigestAsHex(userUpdateDTO.getPassword().getBytes()));
+        userMapper.updateByPrimaryKey(user);
     }
 }
