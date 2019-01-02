@@ -1,6 +1,8 @@
 package io.lxx.opencartservice.service;
 
+import com.github.pagehelper.PageInfo;
 import io.lxx.opencartservice.dto.UserAddDTO;
+import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 
@@ -13,4 +15,6 @@ public interface UserService {
     User getByUsername(String username);
 
     void update(UserUpdateDTO userUpdateDTO);
+
+    PageInfo<UserListDTO> getUsersWithPage(Integer pageNum);
 }

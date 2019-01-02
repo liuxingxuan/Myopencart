@@ -11,6 +11,11 @@
     <result column="encrypted_password" jdbcType="CHAR" property="encryptedPassword" />
     <result column="roles" jdbcType="VARCHAR" property="roles" />
   </resultMap>
+
+  <resultMap id="UserListDTO" type="io.lxx.opencartservice.dto.UserListDTO">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
   <sql id="Base_Column_List">
     user_id, username, first_name, last_name, email, avatar_url, encrypted_password, 
     roles
@@ -28,6 +33,10 @@
     <include refid="Base_Column_List" />
     from user
     where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <!--selectWithPage-->
+  <select id="selectWithPage" resultMap="UserListDTO">
+    select user_id,username from user
   </select>
 
 

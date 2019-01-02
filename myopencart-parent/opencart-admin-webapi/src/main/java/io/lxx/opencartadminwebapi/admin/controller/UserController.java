@@ -1,9 +1,12 @@
 package io.lxx.opencartadminwebapi.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.lxx.opencartadminwebapi.admin.DTO.LoginInfo;
 import io.lxx.opencartservice.dto.UserAddDTO;
 import io.lxx.opencartadminwebapi.admin.exception.BackendClientException;
+import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.impl.UserServiceImpl;
@@ -74,4 +77,11 @@ public class UserController {
     public void update(@RequestBody UserUpdateDTO userUpdateDTO){
         userService.update(userUpdateDTO);
     }
+
+    @GetMapping("/getUsersWithPage")
+    public PageInfo<UserListDTO> getUsersWithPage(@RequestParam(required = false,defaultValue = "1")Integer pageNum){
+        PageInfo<UserListDTO> usersWithPage = userService.getUsersWithPage(pageNum);
+        return usersWithPage;
+    }
+    //todo batchdelete
 }

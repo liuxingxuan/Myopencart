@@ -1,6 +1,8 @@
 package io.lxx.opencartservice.dao;
 
+import com.github.pagehelper.Page;
 import io.lxx.opencartservice.dto.UserAddDTO;
+import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 
@@ -22,4 +24,6 @@ public interface UserMapper {
     void add(UserAddDTO userAddDTO);
 
     void update(UserUpdateDTO userUpdateDTO);
+
+    Page<UserListDTO> selectWithPage();
 }

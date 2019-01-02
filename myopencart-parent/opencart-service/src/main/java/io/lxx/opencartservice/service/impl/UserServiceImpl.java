@@ -1,7 +1,11 @@
 package io.lxx.opencartservice.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.lxx.opencartservice.dao.UserMapper;
 import io.lxx.opencartservice.dto.UserAddDTO;
+import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.UserService;
@@ -56,5 +60,14 @@ public class UserServiceImpl implements UserService {
         user.setAvatarUrl(userUpdateDTO.getAvatarUrl());
         user.setEncryptedPassword(DigestUtils.md5DigestAsHex(userUpdateDTO.getPassword().getBytes()));
         userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public PageInfo<UserListDTO> getUsersWithPage(Integer pageNum) {
+        //todo change pagesize
+        PageHelper.startPage(pageNum,10);
+        Page<UserListDTO> user = userMapper.selectWithPage();
+        PageInfo<UserListDTO> pageInfo = user.toPageInfo();
+        return pageInfo;
     }
 }
