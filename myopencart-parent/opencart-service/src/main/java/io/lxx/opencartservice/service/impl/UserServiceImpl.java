@@ -36,4 +36,9 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Constant.rolesStr);
         userMapper.insert(user);
     }
+
+    @Override
+    public User getByUsername(String username) {
+        return userMapper.getByUsername(username);
+    }
 }

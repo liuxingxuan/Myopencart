@@ -8,4 +8,6 @@ public interface UserService {
     User getById(Long userId);
 
     void add(UserAddDTO userAddDTO);
+
+    User getByUsername(String username);
 }
