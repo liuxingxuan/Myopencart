@@ -1,5 +1,7 @@
 package io.lxx.opencartadminwebapi.admin.DTO;
 
+import io.lxx.opencartservice.utils.Constant;
+
 import java.util.Date;
 
 public class LoginInfo {
@@ -9,6 +11,7 @@ public class LoginInfo {
     private Date issuedAt;
     private Date expirationTime;
 
+
     public LoginInfo(Long userId, String username, String roles, Date issuedAt) {
         this.userId = userId;
         this.username = username;
@@ -16,7 +19,7 @@ public class LoginInfo {
         this.issuedAt = issuedAt;
 
         long issuedAtTimestamp = issuedAt.getTime();//当前时间戳
-        long expirationTimestamp = issuedAtTimestamp + 10*60*1000;//过期时间
+        long expirationTimestamp = issuedAtTimestamp + Constant.expireDuration *60*1000;//过期时间  分钟转为毫秒
         this.expirationTime = new Date(expirationTimestamp);//设置过期时间
     }
 

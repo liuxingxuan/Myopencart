@@ -11,6 +11,10 @@ import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +25,17 @@ import java.util.Date;
 @RestController
 @RequestMapping("/user")
 @Validated
+@EnableAutoConfiguration
 public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String Sender;
 
     /**
      * 根据Id查找用户
@@ -86,4 +97,15 @@ public class UserController {
         return usersWithPage;
     }
     //todo batchdelete
+
+    @RequestMapping("/sendSimpleMail")
+    public String sendSimpleMail(){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(Sender);//发送人
+        message.setTo("853555374@qq.com");//接收人
+        message.setSubject("测试邮件");//主题
+        message.setText("内容测试");//内容
+        mailSender.send(message);
+        return "发送成功";
+    }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import io.lxx.opencartadminwebapi.admin.DTO.LoginInfo;
 import io.lxx.opencartadminwebapi.admin.exception.BackendClientException;
 import io.lxx.opencartadminwebapi.admin.exception.BackendUnauthenticationException;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,6 +15,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@Lazy
 public class TokenInterceptor implements HandlerInterceptor {
 
     private String[] urls = {"/user/login","/error"};
