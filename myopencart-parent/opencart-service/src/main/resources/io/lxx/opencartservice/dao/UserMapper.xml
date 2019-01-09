@@ -38,6 +38,13 @@
   <select id="selectWithPage" resultMap="UserListDTO">
     select user_id,username from user
   </select>
+<!--email验证-->
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where email = #{email}
+  </select>
 
 
 

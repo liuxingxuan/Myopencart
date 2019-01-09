@@ -70,4 +70,11 @@ public class UserServiceImpl implements UserService {
         PageInfo<UserListDTO> pageInfo = user.toPageInfo();
         return pageInfo;
     }
+
+    @Override
+    public void changeUserPassworddByEmail(String email, String password) {
+        User user = userMapper.selectByEmail(email);
+        user.setEncryptedPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
+        userMapper.updateByPrimaryKey(user);
+    }
 }

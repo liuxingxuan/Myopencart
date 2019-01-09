@@ -14,7 +14,7 @@ public class UserAddDTO {
     private String email;
 
     private String avatarUrl;
-    @Size(min = 11,max = 18)
+    @Size(min = 5,max = 18)
     private String password;
 
     public String getUsername() {

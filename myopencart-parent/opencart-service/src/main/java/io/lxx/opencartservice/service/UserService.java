@@ -17,4 +17,6 @@ public interface UserService {
     void update(UserUpdateDTO userUpdateDTO);
 
     PageInfo<UserListDTO> getUsersWithPage(Integer pageNum);
+
+    void changeUserPassworddByEmail(String email, String password);
 }

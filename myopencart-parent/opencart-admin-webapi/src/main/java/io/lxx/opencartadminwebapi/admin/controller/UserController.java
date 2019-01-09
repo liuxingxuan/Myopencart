@@ -105,6 +105,10 @@ public class UserController {
     }
     //todo batchdelete
 
+    /**
+     * 重置密码发邮件到邮箱
+     * @param email
+     */
     @GetMapping("/resetPassword")
     public void resetPassword(@RequestParam @Email String email){
         //随机码
@@ -121,5 +125,18 @@ public class UserController {
         javaMailSender.send(simpleMailMessage);
         //存入redis并设置过期时间
         redisTemplate.opsForValue().set(email,code,10*60, TimeUnit.SECONDS);
+    }
+
+    @GetMapping("/verifyCode")
+    public void verifyCode(@RequestParam @Email String email,@RequestParam String code) throws BackendClientException {
+        String redisCode = (String)redisTemplate.opsForValue().get(email);
+        //todo email 是否存在
+        if(redisCode == null){
+            throw new BackendClientException("email verify code is expire");
+        }
+        if(!redisCode.equals(code)){
+            throw new BackendClientException("email verify code is invalid");
+        }
+        userService.changeUserPassworddByEmail(email,"123456");
     }
 }

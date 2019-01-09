@@ -26,4 +26,6 @@ public interface UserMapper {
     void update(UserUpdateDTO userUpdateDTO);
 
     Page<UserListDTO> selectWithPage();
+
+    User selectByEmail(String email);
 }
