@@ -1,7 +1,6 @@
 package io.lxx.opencartadminwebapi.admin.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.lxx.opencartadminwebapi.admin.DTO.LoginInfo;
 import io.lxx.opencartservice.dto.UserAddDTO;
@@ -13,14 +12,19 @@ import io.lxx.opencartservice.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
+import javax.xml.bind.DatatypeConverter;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -32,10 +36,13 @@ public class UserController {
     private UserServiceImpl userService;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
-    private String Sender;
+    private String sendAddress;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 根据Id查找用户
@@ -98,14 +105,21 @@ public class UserController {
     }
     //todo batchdelete
 
-    @RequestMapping("/sendSimpleMail")
-    public String sendSimpleMail(){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(Sender);//发送人
-        message.setTo("853555374@qq.com");//接收人
-        message.setSubject("测试邮件");//主题
-        message.setText("内容测试");//内容
-        mailSender.send(message);
-        return "发送成功";
+    @GetMapping("/resetPassword")
+    public void resetPassword(@RequestParam @Email String email){
+        //随机码
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] bytes = secureRandom.generateSeed(3);
+        String code = DatatypeConverter.printHexBinary(bytes);
+
+        //发送简单邮件
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom(sendAddress);
+        simpleMailMessage.setTo(email);
+        simpleMailMessage.setSubject("Myopencart Email Verify Code");
+        simpleMailMessage.setText("您的随机验证码为:"+code);
+        javaMailSender.send(simpleMailMessage);
+        //存入redis并设置过期时间
+        redisTemplate.opsForValue().set(email,code,10*60, TimeUnit.SECONDS);
     }
 }
