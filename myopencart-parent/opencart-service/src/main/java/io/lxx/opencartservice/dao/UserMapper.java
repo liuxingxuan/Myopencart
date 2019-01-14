@@ -5,6 +5,9 @@ import io.lxx.opencartservice.dto.UserAddDTO;
 import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Long userId);
@@ -28,4 +31,6 @@ public interface UserMapper {
     Page<UserListDTO> selectWithPage();
 
     User selectByEmail(String email);
+
+    void batchdelete(@Param("userIds")List<Integer> userIds);
 }

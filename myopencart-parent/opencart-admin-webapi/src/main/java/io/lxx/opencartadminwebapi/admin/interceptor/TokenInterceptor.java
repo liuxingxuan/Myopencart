@@ -22,6 +22,11 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws BackendUnauthenticationException, BackendClientException {
+        String method = request.getMethod();
+        if(method.equals("OPTIONS")){
+            return true;
+        }
+
         boolean contains = Arrays.asList(urls).contains(request.getRequestURI());//是否包括uri
         if(contains){
             return true;

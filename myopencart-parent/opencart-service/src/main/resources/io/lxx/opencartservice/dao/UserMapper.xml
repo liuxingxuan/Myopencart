@@ -45,6 +45,14 @@
     from user
     where email = #{email}
   </select>
+  <delete id="batchdelete">
+    delete from user where user_id in
+    <foreach collection="userIds" item="userId" index="index" separator="," open="(" close=")">
+      #{userId}
+    </foreach>
+  </delete>
+
+
 
 
 

@@ -24,12 +24,14 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
 @Validated
 @EnableAutoConfiguration
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -104,7 +106,10 @@ public class UserController {
         return usersWithPage;
     }
     //todo batchdelete
-
+    @PostMapping("/batchdelete")
+    public void batchdelete(@RequestBody List<Integer> userIds){
+        userService.batchdelete(userIds);
+    }
     /**
      * 重置密码发邮件到邮箱
      * @param email

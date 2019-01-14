@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 
 @Service
 @EnableAutoConfiguration
@@ -76,5 +78,10 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByEmail(email);
         user.setEncryptedPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
         userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public void batchdelete(List<Integer> userIds) {
+        userMapper.batchdelete(userIds);
     }
 }
