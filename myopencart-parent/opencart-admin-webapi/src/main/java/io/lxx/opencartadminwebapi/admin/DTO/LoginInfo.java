@@ -9,6 +9,7 @@ public class LoginInfo {
     private String username;
     private String roles;
     private Date issuedAt;
+
     private Date expirationTime;
 
 

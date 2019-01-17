@@ -1,5 +1,6 @@
 package io.lxx.opencartservice.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
         user.setAvatarUrl(userAddDTO.getAvatarUrl());
         //密码MD5处理  用springboot自带的
         user.setEncryptedPassword(DigestUtils.md5DigestAsHex(userAddDTO.getPassword().getBytes()));
-        user.setRoles(Constant.rolesStr);
+        user.setRoles(JSON.toJSONString(userAddDTO.getRoles()));
         userMapper.insert(user);
     }
 

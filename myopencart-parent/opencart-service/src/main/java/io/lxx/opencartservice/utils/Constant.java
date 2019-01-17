@@ -1,6 +1,5 @@
 package io.lxx.opencartservice.utils;
 
 public class Constant {
-    public static final String rolesStr = "[\"user\"]";//用户角色
-    public static final Long expireDuration = 60L;//登录的过期时间
+    public static final Long expireDuration = 120L;//登录的过期时间
 }

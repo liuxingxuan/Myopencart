@@ -72,7 +72,7 @@ public class UserController {
      * @param userAddDTO
      */
     @PostMapping("/add")
-    public void add(@RequestBody @Validated UserAddDTO userAddDTO){
+    public void add(@RequestBody  @Validated UserAddDTO userAddDTO){
         userService.add(userAddDTO);
     }
     @GetMapping("/login")

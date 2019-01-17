@@ -15,7 +15,6 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
-@Lazy
 public class TokenInterceptor implements HandlerInterceptor {
 
     private String[] urls = {"/user/login","/error"};
