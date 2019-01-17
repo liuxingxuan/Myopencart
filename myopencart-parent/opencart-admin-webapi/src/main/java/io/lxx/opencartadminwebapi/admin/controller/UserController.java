@@ -107,7 +107,11 @@ public class UserController {
     }
     //todo batchdelete
     @PostMapping("/batchdelete")
-    public void batchdelete(@RequestBody List<Integer> userIds){
+    public void batchdelete(@RequestBody List<Integer> userIds,@RequestAttribute Integer currentUserId) throws BackendClientException {
+        boolean contains = userIds.contains(currentUserId);//判断集合中是否有当前用户id
+        if(contains){
+            throw new BackendClientException("don't delete currentUser");
+        }
         userService.batchdelete(userIds);
     }
     /**

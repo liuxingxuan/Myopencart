@@ -60,7 +60,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             throw new BackendUnauthenticationException("Unauthentication: token is expired");
         }
         //根据token取出当前用户信息
-        request.setAttribute("userId",userId);
+        request.setAttribute("currentUserId",userId);
         request.setAttribute("username",username);
         return true;
     }
