@@ -43,6 +43,10 @@ var app = new Vue({
                 alert(error.response.data.message);
               });
         },
+        addClick(){
+            console.log("add click");
+            location.href="UserAdd";
+        }
        
     }
   
