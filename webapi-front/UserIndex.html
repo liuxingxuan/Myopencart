@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/css/elementui.css">
+    <title>List</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <el-button type="danger" @click="batchDeleteClick">删除</el-button>
+        <br>
+        <el-table :data="pageInfo.list" style="width: 100%" @selection-change="handleSelectionChange">
+            <br>
+            <el-table-column type="selection" width="55">
+            </el-table-column>
+            <el-table-column prop="userId" label="日期">
+            </el-table-column>
+            <el-table-column prop="username" label="姓名">
+            </el-table-column>
+        </el-table>
+    </div>
+
+    <script src="assets/js/axios.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/elementui.js"></script>
+    <script src="assets/js/commons.js"></script>
+    <script src="viewmodels/UserIndex.js"></script>
+
+</body>
+
+</html>
