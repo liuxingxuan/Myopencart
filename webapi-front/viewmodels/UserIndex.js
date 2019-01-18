@@ -10,7 +10,7 @@ var app = new Vue({
     },
     methods:{
         getUsers(){
-            axios.get('http://localhost:8080/user/getUsersWithPage',{
+            axios.get('/user/getUsersWithPage',{
                 params:{
                     pageNum:this.pageNum
                 }
@@ -32,7 +32,7 @@ var app = new Vue({
             this.batchDelete();
         },
         batchDelete(){
-            axios.post('http://localhost:8080/user/batchdelete', this.selectedUserIds)
+            axios.post('/user/batchdelete', this.selectedUserIds)
               .then(function (response) {
                 console.log(response);
                 alert('删除成功');
@@ -46,8 +46,12 @@ var app = new Vue({
         addClick(){
             console.log("add click");
             location.href="UserAdd";
+        },
+        handleEdit(userId){
+            console.log(userId);
+            // sessionStorage["user"] = JSON.stringify(user);
+            location.href="UserUpdate?userId="+userId;
         }
-       
     }
   
       
