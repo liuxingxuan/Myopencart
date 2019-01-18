@@ -54,6 +54,7 @@ var app = new Vue({
                 .then(function (response) {
                     console.log(response);
                     alert('修改成功');
+                    location.href="UserIndex.html";
                 })
                 .catch(function (error) {
                     console.log(error);
