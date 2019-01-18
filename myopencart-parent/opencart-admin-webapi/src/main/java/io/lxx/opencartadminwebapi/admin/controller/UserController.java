@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import io.lxx.opencartadminwebapi.admin.DTO.LoginInfo;
 import io.lxx.opencartservice.dto.UserAddDTO;
 import io.lxx.opencartadminwebapi.admin.exception.BackendClientException;
+import io.lxx.opencartservice.dto.UserGetDTO;
 import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
@@ -52,9 +53,10 @@ public class UserController {
      * @return
      */
     @GetMapping("/getById")
-    public User getById(@RequestParam Long userId){
+    public UserGetDTO getById(@RequestParam Long userId){
         User user = userService.getById(userId);
-        return user;
+        UserGetDTO userGetDTO = new UserGetDTO(user);
+        return userGetDTO;
     }
 
     /**
@@ -88,7 +90,7 @@ public class UserController {
         LoginInfo loginInfo = new LoginInfo(user.getUserId(), user.getUsername(), user.getRoles(), new Date());
         String loginInfoStr = JSON.toJSONString(loginInfo);//对象转换为字符串
         String token = Base64.getEncoder().encodeToString(loginInfoStr.getBytes());//Base64转码
-        return token;
+            return token;
     }
 
     /**
