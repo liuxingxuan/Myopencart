@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.lxx.opencartservice.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="io.lxx.opencartservice.po.Product">
+    <id column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="vat" jdbcType="INTEGER" property="vat" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="point" jdbcType="INTEGER" property="point" />
+    <result column="picture_main_url" jdbcType="VARCHAR" property="pictureMainUrl" />
+    <result column="picture_urls" jdbcType="VARCHAR" property="pictureUrls" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="io.lxx.opencartservice.po.Product">
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    product_id, product_code, name, price, vat, brand, point, picture_main_url, picture_urls
+  </sql>
+  <sql id="Blob_Column_List">
+    detail
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    where product_id = #{productId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from product
+    where product_id = #{productId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="io.lxx.opencartservice.po.Product">
+    insert into product (product_id, product_code, name, 
+      price, vat, brand, 
+      point, picture_main_url, picture_urls, 
+      detail)
+    values (#{productId,jdbcType=BIGINT}, #{productCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{vat,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
+      #{point,jdbcType=INTEGER}, #{pictureMainUrl,jdbcType=VARCHAR}, #{pictureUrls,jdbcType=VARCHAR}, 
+      #{detail,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.lxx.opencartservice.po.Product">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="productCode != null">
+        product_code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="vat != null">
+        vat,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="pictureMainUrl != null">
+        picture_main_url,
+      </if>
+      <if test="pictureUrls != null">
+        picture_urls,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productCode != null">
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="vat != null">
+        #{vat,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pictureMainUrl != null">
+        #{pictureMainUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrls != null">
+        #{pictureUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.lxx.opencartservice.po.Product">
+    update product
+    <set>
+      <if test="productCode != null">
+        product_code = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="vat != null">
+        vat = #{vat,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pictureMainUrl != null">
+        picture_main_url = #{pictureMainUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrls != null">
+        picture_urls = #{pictureUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="io.lxx.opencartservice.po.Product">
+    update product
+    set product_code = #{productCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      vat = #{vat,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
+      point = #{point,jdbcType=INTEGER},
+      picture_main_url = #{pictureMainUrl,jdbcType=VARCHAR},
+      picture_urls = #{pictureUrls,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where product_id = #{productId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.lxx.opencartservice.po.Product">
+    update product
+    set product_code = #{productCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      vat = #{vat,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
+      point = #{point,jdbcType=INTEGER},
+      picture_main_url = #{pictureMainUrl,jdbcType=VARCHAR},
+      picture_urls = #{pictureUrls,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=BIGINT}
+  </update>
+</mapper>
