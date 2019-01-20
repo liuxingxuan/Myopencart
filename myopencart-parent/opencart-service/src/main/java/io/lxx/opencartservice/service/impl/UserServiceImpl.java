@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setAvatarUrl(userUpdateDTO.getAvatarUrl());
         user.setEncryptedPassword(DigestUtils.md5DigestAsHex(userUpdateDTO.getPassword().getBytes()));
         user.setRoles(JSON.toJSONString(userUpdateDTO.getRoles()));
+        user.setAvatarUrl(userUpdateDTO.getAvatarUrl());
         userMapper.updateByPrimaryKey(user);
     }
 
