@@ -10,6 +10,7 @@ import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.impl.UserServiceImpl;
+import io.lxx.opencartservice.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -168,20 +169,13 @@ public class UserController {
 
     //Base64转码，只适合小图片
     @PostMapping("/uploadAvatar")
-    public void updateAvatar(@RequestBody String acatarData) throws IOException {
+    public void updateAvatar(@RequestBody String acatarData) throws Exception {
         String[] split = acatarData.split(",");
         String type = split[0].split(";")[0].split("/")[1];
         byte[] imgBytes = Base64.getDecoder().decode(split[1]);
         String uuid = UUID.randomUUID().toString();
         String url = String.format("avatar/%s.%s", uuid, type);
-        storeAvatar(imgBytes, url);
-    }
-
-    //存储
-    private void storeAvatar(byte[] imgData, String url) throws IOException {
-        FileOutputStream out = new FileOutputStream(url);
-        out.write(imgData);
-        out.close();
+        FileUtil.storeFile(imgBytes,url);//存储
     }
 
     //MultipartFile
@@ -195,7 +189,7 @@ public class UserController {
         String type = file.getContentType().split("/")[1];
         String fileName = String.format("%s.%s", uuid, type);
         String url = String.format("avatar/%s", fileName);
-        storeAvatar(file.getBytes(), url);
+        FileUtil.storeFile(file.getBytes(),url);//存储
         return fileName;
     }
 }
