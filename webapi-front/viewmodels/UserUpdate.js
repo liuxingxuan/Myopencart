@@ -1,3 +1,7 @@
+
+var headers = {
+    'Authorization': localStorage['token']
+}
 var app = new Vue({
     el: '#app',
     data: {
@@ -7,16 +11,19 @@ var app = new Vue({
         firstName: '',
         lastName: '',
         email: '',
-        password: ''
+        password: '',
+        imageUrl: '',
+        avatarUrl:'',
+        headers:headers
     },
     mounted() {
         console.log('view mounted');
-        this.getUser();
+        var url = new URL(location.href);
+        var userId = url.searchParams.get("userId");
+        this.getUser(userId);
     },
     methods: {
-        getUser() {
-            var url = new URL(location.href);
-            var userId = url.searchParams.get("userId");
+        getUser(userId) {
             axios.get('/user/getById', {
                 params: {
                     userId: userId
@@ -31,6 +38,7 @@ var app = new Vue({
                     app.lastName = user.lastName;
                     app.email = user.email;
                     app.selectedRoles = user.roles;
+                    app.imageUrl = 'http://localhost:8888/'+user.avatarUrl;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -61,5 +69,21 @@ var app = new Vue({
                     alert('修改失败');
                 });
         },
+        handleAvatarSuccess(response, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+            this.avatarUrl = response;
+        },
+        beforeAvatarUpload(file) {
+            const isJPGorPNG = file.type === 'image/jpeg' || 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPGorPNG) {
+                this.$message.error('上传头像图片只能是 JPG 或者 png 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPGorPNG && isLt2M;
+        }
     }
 })
