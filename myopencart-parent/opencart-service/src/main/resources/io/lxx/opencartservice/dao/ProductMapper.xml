@@ -21,7 +21,31 @@
   <sql id="Blob_Column_List">
     detail
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <delete id="batchDelete">
+    delete from product
+    where product_id in
+    <foreach collection="productIds" open="(" close=")" separator="," index="index" item="productId">
+      #{productId}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="io.lxx.opencartservice.po.Product"  keyProperty="productId" useGeneratedKeys="true">
+    insert into product (product_id, product_code, name,
+      price, vat, brand,
+      point, picture_main_url, picture_urls,
+      detail)
+    values (#{productId,jdbcType=BIGINT}, #{productCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{price,jdbcType=INTEGER}, #{vat,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR},
+      #{point,jdbcType=INTEGER}, #{pictureMainUrl,jdbcType=VARCHAR}, #{pictureUrls,jdbcType=VARCHAR},
+      #{detail,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <select id="selectWithPage"  resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    from product
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
@@ -33,16 +57,7 @@
     delete from product
     where product_id = #{productId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="io.lxx.opencartservice.po.Product">
-    insert into product (product_id, product_code, name, 
-      price, vat, brand, 
-      point, picture_main_url, picture_urls, 
-      detail)
-    values (#{productId,jdbcType=BIGINT}, #{productCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{price,jdbcType=INTEGER}, #{vat,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
-      #{point,jdbcType=INTEGER}, #{pictureMainUrl,jdbcType=VARCHAR}, #{pictureUrls,jdbcType=VARCHAR}, 
-      #{detail,jdbcType=LONGVARCHAR})
-  </insert>
+
   <insert id="insertSelective" parameterType="io.lxx.opencartservice.po.Product">
     insert into product
     <trim prefix="(" suffix=")" suffixOverrides=",">
