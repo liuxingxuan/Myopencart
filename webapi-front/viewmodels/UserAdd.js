@@ -1,3 +1,6 @@
+var headers = {
+    'Authorization': localStorage['token']
+}
 var app = new Vue({
     el: '#app',
     data: {
@@ -6,7 +9,10 @@ var app = new Vue({
         firstName: '',
         lastName: '',
         email: '',
-        password: ''
+        password: '',
+        imageUrl:'',
+        avatarUrl:'',
+        headers:headers
     },
     methods: {
         handleAddClick() {
@@ -20,7 +26,8 @@ var app = new Vue({
                 lastName: this.lastName,
                 email: this.email,
                 password: this.password,
-                roles: this.selectedRoles
+                roles: this.selectedRoles,
+                avatarUrl: this.avatarUrl
             })
                 .then(function (response) {
                     console.log(response);
@@ -31,6 +38,22 @@ var app = new Vue({
                     console.log(error);
                     alert('添加失败');
                 });
+        },
+        handleAvatarSuccess(response, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+            this.avatarUrl = response;
+        },
+        beforeAvatarUpload(file) {
+            const isJPGorPNG = file.type === 'image/jpeg' || 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPGorPNG) {
+                this.$message.error('上传头像图片只能是 JPG 或者 png 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPGorPNG && isLt2M;
         }
     }
 })
