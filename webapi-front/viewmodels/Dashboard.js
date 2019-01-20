@@ -10,10 +10,6 @@ var app = new Vue({
         handleSelectClick(val){
             console.log(val);
             this.index = val;
-            this.href();
-        },
-        href(){
-            location.href = "UserIndex.html";
         }
     }
 })

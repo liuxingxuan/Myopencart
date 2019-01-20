@@ -26,8 +26,11 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <div v-show="index == 1"><a :href></a></div>
-                <div v-show="index == 2"><a href="UserIndex.html">商品列表</a></div>
+                <div v-show="index == 1">
+                    <a href="UserIndex.html">用户列表</a>
+                    <a href="ProductIndex.html">商品列表</a>
+                </div>
+                <div v-show="index == 2"><a href="ProductIndex.html">商品列表</a></div>
             </el-main>
         </el-container>
     </div>
