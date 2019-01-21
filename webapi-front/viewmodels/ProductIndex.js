@@ -56,10 +56,10 @@ var app = new Vue({
             console.log("add click");
             location.href="ProductAdd";
         },
-        handleEdit(userId){
-            console.log(userId);
+        handleEdit(productId){
+            console.log(productId);
             // sessionStorage["user"] = JSON.stringify(user);
-            location.href="UserUpdate?userId="+userId;
+            location.href="ProductUpdate?productId="+productId;
         }
     }
   

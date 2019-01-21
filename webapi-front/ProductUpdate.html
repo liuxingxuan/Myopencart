@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/css/elementui.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <title>UserUpdate</title>
+</head>
+
+<body>
+    <div id="app">
+        <el-input v-model="productId" readonly></el-input>
+        <el-input v-model="name" placeholder="请输入商品名称"></el-input>
+        <el-input v-model="productCode" placeholder="请输入商品代号"></el-input>
+        <el-input v-model="price" placeholder="请输入价格"></el-input>
+        <el-input v-model="brand" placeholder="请输入品牌"></el-input>
+
+        <el-upload class="avatar-uploader" action="http://localhost:8080/product/uploadProductMainPhoto"
+            :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :headers="headers"
+            name="file">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+
+        <br>
+        <el-button type="primary" @click="handleUpdateClick">修改</el-button>
+    </div>
+
+
+
+    <script src="assets/js/axios.min.js"></script>
+    <script src="assets/js/commons.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/elementui.js"></script>
+    <script src="viewmodels/ProductUpdate.js"></script>
+
+</body>
+
+</html>
