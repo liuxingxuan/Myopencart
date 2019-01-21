@@ -54,7 +54,7 @@ var app = new Vue({
         },
         addClick(){
             console.log("add click");
-            location.href="UserAdd";
+            location.href="ProductAdd";
         },
         handleEdit(userId){
             console.log(userId);
