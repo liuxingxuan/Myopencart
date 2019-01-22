@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import io.lxx.opencartadminwebapi.admin.DTO.LoginInfo;
 import io.lxx.opencartadminwebapi.admin.exception.BackendClientException;
 import io.lxx.opencartadminwebapi.admin.exception.BackendUnauthenticationException;
+import io.lxx.opencartservice.utils.AES;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,7 +19,16 @@ import java.util.Date;
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
-    private String[] urls = {"/user/login","/error"};
+    @Value("${token.aes.secret}")
+    private String aesSecret;
+
+    //过滤拦截
+    private String[] urls = {
+            "/user/login",
+            "/error",
+            "/user/resetPassword",
+            "/user/verifyCode"
+    };
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws BackendUnauthenticationException, BackendClientException {
@@ -38,8 +49,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = s[1];
         LoginInfo loginInfo;
         try {
-            byte[] decode = Base64.getDecoder().decode(token);//base64解码
-            String loginJsonStr = new String(decode, "UTF-8");
+            //byte[] decode = Base64.getDecoder().decode(token);//base64解码
+            //String loginJsonStr = new String(decode, "UTF-8");
+            String loginJsonStr = AES.decrypt(token,aesSecret);
             loginInfo = JSON.parseObject(loginJsonStr,LoginInfo.class);
         } catch (Exception e) {
             throw new BackendClientException("auth invalid caused by some issues");

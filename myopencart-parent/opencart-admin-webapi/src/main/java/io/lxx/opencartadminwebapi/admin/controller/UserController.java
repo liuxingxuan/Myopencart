@@ -10,6 +10,7 @@ import io.lxx.opencartservice.dto.UserListDTO;
 import io.lxx.opencartservice.dto.UserUpdateDTO;
 import io.lxx.opencartservice.po.User;
 import io.lxx.opencartservice.service.impl.UserServiceImpl;
+import io.lxx.opencartservice.utils.AES;
 import io.lxx.opencartservice.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -54,6 +54,9 @@ public class UserController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    //注入aes秘钥
+    @Value("${token.aes.secret}")
+    private String aesSecret;
     /**
      * 根据Id查找用户
      *
@@ -90,7 +93,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(String username, String password) throws BackendClientException {
+    public String login(String username, String password) throws Exception {
         User user = userService.getByUsername(username);
         if (user == null) {
             throw new BackendClientException("user isn't exist");
@@ -101,10 +104,10 @@ public class UserController {
         }
         LoginInfo loginInfo = new LoginInfo(user.getUserId(), user.getUsername(), user.getRoles(), new Date());
         String loginInfoStr = JSON.toJSONString(loginInfo);//对象转换为字符串
-        String token = Base64.getEncoder().encodeToString(loginInfoStr.getBytes());//Base64转码
+       // String token = Base64.getEncoder().encodeToString(loginInfoStr.getBytes());//Base64转码
+        String token = AES.encrypt(loginInfoStr,aesSecret);//AES加密
         return token;
     }
-
     /**
      * 修改user信息
      *
